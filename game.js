@@ -1,5 +1,5 @@
 var fox = {l:0, dir:"R", speed:5, location:{x:0,y:0}, history:[]};
-var fps = 1, startlength = 5, gap=10;
+var fps = 12, startlength = 25, gap=10;
 
 /*
  * fox.history = [{x:200,y:500}, {x:150, y:500}]
@@ -15,6 +15,7 @@ $(window).load(function() {
   // Set keyboard input
   $(document).keydown(function( event ) {
     switch(event.which) {
+
         case 37: // left
         fox.dir="L";
         break;
@@ -43,6 +44,8 @@ $(window).load(function() {
 });
 
 function update() {
+
+  var collision=collision_detect();
 
   // Pop previous location at beginning of history
   fox.history.unshift({x:fox.location.x, y:fox.location.y});
@@ -78,6 +81,49 @@ function update() {
       $("#fox-"+i).offset({left:newpos.x, top:newpos.y});
   }
 
+  if (collision) { console.log('eeeeee'); }
+
+}
+
+function collision_detect() {
+  // Is anything ahead of the fox head?
+  // This is called at the beginning of update(), we
+  // make the move anyway.
+  var collision=false;
+
+    // Define small area ahead of the fox.
+    var crash={x:0,y:0,w:5,h:5}, obj={x:0,y:0,w:5,h:5}, size=40;
+
+    if (fox.dir==="R") {
+      crash.x=fox.location.x+size;
+      crash.w=(size/10);
+      crash.y=fox.location.y+(size/2)-(size/5);
+      crash.h=(size/10);
+    }
+
+    // Are any of our objects within the crash boundaries?
+    for (i = 0; i < fox.l; i++) {
+      obj.x=fox.history[i].x;
+      obj.w=size;
+      obj.y=fox.history[i].y;
+      obj.h=size;
+      collision=collision_detect_compare(crash, obj);
+    }
+
+    return collision;
+}
+
+function collision_detect_compare(crash,obj) {
+
+  // is crash within obj?
+  if (  (crash.x < (obj.x+obj.w) ) &&
+        ( (crash.x+crash.w) > obj.x ) &&
+        (crash.y < (obj.y+obj.h) ) &&
+        ( (crash.y+crash.h) > obj.y ) ) {
+          return true;
+        } else {
+          return false;
+        }
 
 }
 
