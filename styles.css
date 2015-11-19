@@ -1,0 +1,21 @@
+.fox {
+    position:absolute;
+    style:block;
+    width:40px;
+    height:40px;
+}
+
+.fox.head {
+  background-color: aqua;
+  z-index:10;
+}
+
+.fox.blob {
+  background-color: red;
+  z-index:5;
+}
+
+.fox.end {
+  background-color: yellow;
+  z-index:1;
+}
