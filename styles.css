@@ -1,10 +1,21 @@
+body {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
 .gamearea {
   top:0;
   left:0;
   right:0;
   bottom:0;
-  background-color: lime;
   position:absolute;
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#192f7f+0,8725c4+50,5200aa+100 */
+  background: #192f7f; /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  #192f7f 0%, #8725c4 50%, #5200aa 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg,  #192f7f 0%,#8725c4 50%,#5200aa 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg,  #192f7f 0%,#8725c4 50%,#5200aa 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#192f7f', endColorstr='#5200aa',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
 
 .fox {
@@ -19,6 +30,9 @@
 .fox.head {
   background-image: url('face.png');
   z-index:10;
+}
+.fox.head.dead {
+  background-image: url('face-dead.png');
 }
 
   .fox.head.R {
@@ -55,6 +69,55 @@
   z-index:5;
 }
 
+.fox.leg {
+  background-image: url('leg.png');
+  z-index:100;
+  width:14px;
+  height:15px;
+}
+
+
+
+  .fox.leg.U {
+    -ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Safari */
+    transform: rotate(270deg);
+  }
+
+  .fox.leg.D {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari */
+    transform: rotate(90deg);
+  }
+
+.fox.ears {
+  background-image: url('ears.png');
+  z-index:100;
+  width:25px;
+  height:20px;
+}
+
+.fox.ears.L {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.fox.ears.U {
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -webkit-transform: rotate(270deg); /* Safari */
+  transform: rotate(270deg);
+}
+
+.fox.ears.D {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */
+  transform: rotate(90deg);
+}
+
 .fox.end {
   background-color: yellow;
   z-index:1;
@@ -65,13 +128,114 @@
   z-index: 99;
 }
 
+.fox.tail {
+  background-image: url('tail.png');
+  z-index:100;
+  width:45px;
+  height:20px;
+}
+
+.fox.tail.L {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.fox.tail.U {
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -webkit-transform: rotate(270deg); /* Safari */
+  transform: rotate(270deg);
+}
+
+.fox.tail.D {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */
+  transform: rotate(90deg);
+}
+
 .nom {
   z-index:5;
   position:absolute;
   style:block;
   width:10px;
   height:10px;
+  background-image: url('nom.png');
   background-size:100% 100%;
   background-position: top left;
-  background-color: red;
+}
+
+.touch {
+  position:absolute;
+  z-index:1000;
+  background-color:#fff;
+  opacity:0.3;
+
+  font-size:4em;
+  text-align: center;
+}
+.touch.up {
+  top:0;
+  width:100%;
+  height:20%;
+}
+.touch.down {
+  bottom:0;
+  width:100%;
+  height:20%;
+}
+.touch.left {
+  top:20%;
+  bottom:20%;
+  width:20%;
+  left:0;
+}
+.touch.right {
+  top:20%;
+  bottom:20%;
+  width:20%;
+  right:0;
+}
+
+.dialog {
+  position:absolute;
+  left:30%;
+  right:30%;
+  top:30%;
+  background-color: #000;
+  border-radius: 5px;
+  border: 4px solid #fff;
+  text-align: center;
+  padding:8px;
+}
+
+.dialog .title {
+  color:#ea7825;
+  font-size:2em;
+  font-weight:bold;
+}
+
+.dialog .instructions {
+  color:#fff;
+  margin-top:5px;
+}
+
+.dialog .go {
+  margin:auto;
+  margin-top:10px;
+  margin-bottom:10px;
+  font-weight:bold;
+  width:60%;
+  background-color: #fff;
+  border-radius: 5px;
+  border:4px solid #ea7825;
+  font-size:1.3em;
+}
+
+.dialog .go:hover {
+  background-color:#ea7825;
+  border-color:#fff;
+  cursor:pointer;
 }
