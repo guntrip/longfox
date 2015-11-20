@@ -1,21 +1,66 @@
+.gamearea {
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color: lime;
+  position:absolute;
+}
+
 .fox {
     position:absolute;
     style:block;
     width:40px;
     height:40px;
+    background-size:100% 100%;
+    background-position: top left;
 }
 
 .fox.head {
-  background-color: aqua;
+  background-image: url('face.png');
   z-index:10;
 }
 
+  .fox.head.R {
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+  }
+
+  .fox.head.L {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+  }
+
+  .fox.head.U {
+    -ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Safari */
+    transform: rotate(270deg);
+  }
+
+  .fox.head.D {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari */
+    transform: rotate(90deg);
+  }
+
+
 .fox.blob {
-  background-color: red;
+  /*background-color: red;*/
+  background-image: url('body.png');
   z-index:5;
 }
 
 .fox.end {
   background-color: yellow;
   z-index:1;
+}
+
+.fox.nose { /* collision! */
+  background-image: url('nose.png');
+  z-index: 99;
 }
