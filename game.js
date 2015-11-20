@@ -1,11 +1,14 @@
 var fox = {l:0, dir:"R", speed:5, location:{x:0,y:0}, history:[]};
 var fps = 15, startlength = 20, gap=10;
+var noms=[], nommed=false;
 
 /*
  * fox.history = [{x:200,y:500}, {x:150, y:500}]
  * move the head, add the location to the start
  * of history, all blobs follow that.
  */
+
+ function rand(min,max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
 $(window).load(function() {
 
@@ -45,11 +48,20 @@ $(window).load(function() {
   var fps_time=(1000/fps);
   var game_update = setInterval(update, fps_time);
 
+  add_nom();
+  add_nom();
+  add_nom();
+  add_nom();
+  add_nom();
+
 });
 
 function update() {
 
   var collision=collision_detect();
+
+  // Eaten?
+  nom_detect();
 
   // Pop previous location at beginning of history
   fox.history.unshift({x:fox.location.x, y:fox.location.y});
@@ -88,6 +100,8 @@ function update() {
   }
 
   if (collision) { console.log('eeeeee'); }
+
+
 
 }
 
@@ -132,7 +146,7 @@ function collision_detect() {
     $('.fox.nose').width(crash.w);
     $('.fox.nose').height(crash.h);
 
-    // Are any of our objects within the crash boundaries?
+    // Are any of our fox-objects within the nose boundaries?
     for (i = 0; i < (fox.l); i++) {
       var checkpos = fox.history[i];
       obj.x=checkpos.x;
@@ -144,6 +158,42 @@ function collision_detect() {
     }
 
     return collision;
+}
+
+function nom_detect() {
+  // Compare position of head to any noms.
+  var head_pos={};
+  head_pos.x=fox.location.x;
+  head_pos.y=fox.location.y;
+  head_pos.w=40;
+  head_pos.h=40;
+
+  // Check for any noms!
+  for (i = 0; i < (noms.length); i++) {
+    nom=noms[i];
+    if (!nom.eaten) {
+
+      // Collision?
+      var collision=collision_detect_compare(nom, head_pos);
+
+      if (collision) {
+
+        // Set the nom as eaten.
+        noms[i].eaten=true;
+
+        // Remove it from dom
+        $('#nom-'+i).remove();
+
+        // Add a new nom
+        add_nom();
+
+        // Increase the fox!
+        increase_fox(false);
+
+      }
+
+    }
+  }
 }
 
 function collision_detect_compare(crash,obj) {
@@ -170,7 +220,7 @@ function init_fox() {
   $(".gamearea").append("<div class=\"fox head\"></div>");
   $(".gamearea").append("<div class=\"fox end\"></div>");
   for (i = 0; i < startlength; i++) {
-     increase_fox();
+     increase_fox(false);
    }
 
   // Set locations
@@ -182,8 +232,53 @@ function init_fox() {
   $(".gamearea").append("<div class=\"fox nose\"></div>");
 }
 
-function increase_fox() {
+function increase_fox(init) {
   // Add a blob
   $(".gamearea").append("<div class=\"fox blob\" id=\"fox-"+fox.l+"\"></div>");
   fox.l++;
+  nommed=true;
+  if (!init) {
+    // Position the new blob, two blobs will overlap until they
+    // cycle to the end of the fox.
+    fox.history.unshift({x:fox.location.x, y:fox.location.y});
+  }
+}
+
+function add_nom() {
+
+  // Pick a x/y, check for foxes.
+  var foxy=true, c=0;
+  while (foxy) {
+
+    // grab gameplay area
+    var max_x=$('.gamearea').width()-30, max_y=$('.gamearea').height()-30;
+    var new_nom={x:rand(10,max_x), y:rand(10,max_y), w:10, h:10, eaten:false};
+
+    // Collision detect
+    var collision=false;
+    for (i = 0; i < (fox.l); i++) {
+      var checkpos = fox.history[i], obj={};
+      obj.x=checkpos.x;
+      obj.w=40;
+      obj.y=checkpos.y;
+      obj.h=40;
+      var collision_check=collision_detect_compare(new_nom, obj);
+      if (collision_check) { collision=true; }
+    }
+
+    if (!collision) { foxy=false; } else { console.log('eee :O');}
+    if (c>100) { foxy=false; }
+
+    c++;
+
+  }
+
+  var nomid=noms.length;
+  noms.push(new_nom);
+  $(".gamearea").append("<div class=\"nom\" id=\"nom-"+nomid+"\"></div>");
+
+  $('#nom-'+nomid).offset({left:new_nom.x,top:new_nom.y});
+  $('#nom-'+nomid).width(new_nom.w);
+  $('#nom-'+nomid).height(new_nom.h);
+
 }

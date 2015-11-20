@@ -64,3 +64,14 @@
   background-image: url('nose.png');
   z-index: 99;
 }
+
+.nom {
+  z-index:5;
+  position:absolute;
+  style:block;
+  width:10px;
+  height:10px;
+  background-size:100% 100%;
+  background-position: top left;
+  background-color: red;
+}
